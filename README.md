@@ -6,8 +6,13 @@ Aplikasi pelanggan VoltTrack. Mengonsumsi REST API Laravel di `volttrack_os-lara
 ## Fitur
 - Login / Register (token Sanctum, disimpan aman via flutter_secure_storage)
 - Marketplace (daftar produk)
-- Order milik user
+- Order milik user + detail + upload bukti pembayaran (galeri/kamera via image_picker)
+- Aktivasi garansi + daftar perangkat
+- ROI calculator (hitung penghematan + simpan snapshot)
+- Profil (lihat & edit nama/email)
 - Live monitoring energi (polling `/energy/{id}/latest` tiap 5 detik)
+
+Navigasi: 6 tab — Market, Order, Monitor, Garansi, ROI, Profil.
 
 ## Menjalankan
 1. Jalankan backend Laravel lebih dulu:

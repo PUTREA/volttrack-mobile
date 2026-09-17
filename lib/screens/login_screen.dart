@@ -28,7 +28,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
     String? err;
     if (_registerMode) {
-      err = await _auth.register(_fullName.text.trim(), _email.text.trim(), _password.text);
+      err = await _auth.register(
+        _fullName.text.trim(),
+        _email.text.trim(),
+        _password.text,
+      );
       if (err == null) {
         // Setelah register sukses, langsung login.
         err = await _auth.login(_email.text.trim(), _password.text);
@@ -41,9 +45,9 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _busy = false);
 
     if (err == null) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const HomeScreen()),
-      );
+      Navigator.of(
+        context,
+      ).pushReplacement(MaterialPageRoute(builder: (_) => const HomeScreen()));
     } else {
       setState(() => _error = err);
     }
@@ -62,36 +66,46 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 const Icon(Icons.bolt, size: 56, color: Color(0xFF0F766E)),
                 const SizedBox(height: 8),
-                Text('VoltTrack',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headlineSmall),
+                Text(
+                  'VoltTrack',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
                 const SizedBox(height: 24),
                 if (_registerMode)
                   TextField(
                     controller: _fullName,
                     decoration: const InputDecoration(
-                        labelText: 'Nama Lengkap', border: OutlineInputBorder()),
+                      labelText: 'Nama Lengkap',
+                      border: OutlineInputBorder(),
+                    ),
                   ),
                 if (_registerMode) const SizedBox(height: 12),
                 TextField(
                   controller: _email,
                   keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
-                      labelText: 'Email', border: OutlineInputBorder()),
+                    labelText: 'Email',
+                    border: OutlineInputBorder(),
+                  ),
                 ),
                 const SizedBox(height: 12),
                 TextField(
                   controller: _password,
                   obscureText: true,
                   decoration: const InputDecoration(
-                      labelText: 'Password', border: OutlineInputBorder()),
+                    labelText: 'Password',
+                    border: OutlineInputBorder(),
+                  ),
                 ),
                 const SizedBox(height: 16),
                 if (_error != null)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12),
-                    child: Text(_error!,
-                        style: const TextStyle(color: Colors.red)),
+                    child: Text(
+                      _error!,
+                      style: const TextStyle(color: Colors.red),
+                    ),
                   ),
                 FilledButton(
                   onPressed: _busy ? null : _submit,
@@ -99,19 +113,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       ? const SizedBox(
                           height: 20,
                           width: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2))
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
                       : Text(_registerMode ? 'Daftar & Masuk' : 'Masuk'),
                 ),
                 TextButton(
                   onPressed: _busy
                       ? null
                       : () => setState(() {
-                            _registerMode = !_registerMode;
-                            _error = null;
-                          }),
-                  child: Text(_registerMode
-                      ? 'Sudah punya akun? Masuk'
-                      : 'Belum punya akun? Daftar'),
+                          _registerMode = !_registerMode;
+                          _error = null;
+                        }),
+                  child: Text(
+                    _registerMode
+                        ? 'Sudah punya akun? Masuk'
+                        : 'Belum punya akun? Daftar',
+                  ),
                 ),
               ],
             ),

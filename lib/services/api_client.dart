@@ -59,17 +59,45 @@ class ApiClient {
     return _parse(res);
   }
 
-  Future<ApiResult> post(String path, Map<String, dynamic> data,
-      {bool auth = true}) async {
-    final res = await http.post(_uri(path),
-        headers: await _headers(auth: auth), body: jsonEncode(data));
+  Future<ApiResult> post(
+    String path,
+    Map<String, dynamic> data, {
+    bool auth = true,
+  }) async {
+    final res = await http.post(
+      _uri(path),
+      headers: await _headers(auth: auth),
+      body: jsonEncode(data),
+    );
     return _parse(res);
   }
 
-  Future<ApiResult> put(String path, Map<String, dynamic> data,
-      {bool auth = true}) async {
-    final res = await http.put(_uri(path),
-        headers: await _headers(auth: auth), body: jsonEncode(data));
+  Future<ApiResult> put(
+    String path,
+    Map<String, dynamic> data, {
+    bool auth = true,
+  }) async {
+    final res = await http.put(
+      _uri(path),
+      headers: await _headers(auth: auth),
+      body: jsonEncode(data),
+    );
+    return _parse(res);
+  }
+
+  /// Upload file (multipart) — mis. bukti pembayaran.
+  Future<ApiResult> uploadFile(
+    String path,
+    String fieldName,
+    String filePath,
+  ) async {
+    final request = http.MultipartRequest('POST', _uri(path));
+    final t = await token;
+    request.headers['Accept'] = 'application/json';
+    if (t != null) request.headers['Authorization'] = 'Bearer $t';
+    request.files.add(await http.MultipartFile.fromPath(fieldName, filePath));
+    final streamed = await request.send();
+    final res = await http.Response.fromStream(streamed);
     return _parse(res);
   }
 

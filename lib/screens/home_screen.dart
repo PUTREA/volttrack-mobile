@@ -4,6 +4,10 @@ import '../services/auth_service.dart';
 import '../services/data_service.dart';
 import 'login_screen.dart';
 import 'monitoring_screen.dart';
+import 'warranty_screen.dart';
+import 'roi_screen.dart';
+import 'profile_screen.dart';
+import 'order_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,9 +23,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _logout() async {
     await _auth.logout();
     if (!mounted) return;
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => const LoginScreen()),
-    );
+    Navigator.of(
+      context,
+    ).pushReplacement(MaterialPageRoute(builder: (_) => const LoginScreen()));
   }
 
   @override
@@ -30,6 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
       const _MarketplaceTab(),
       const _OrdersTab(),
       const MonitoringScreen(),
+      const WarrantyScreen(),
+      const RoiScreen(),
+      const ProfileScreen(),
     ];
 
     return Scaffold(
@@ -44,9 +51,15 @@ class _HomeScreenState extends State<HomeScreen> {
         selectedIndex: _tab,
         onDestinationSelected: (i) => setState(() => _tab = i),
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.store), label: 'Marketplace'),
+          NavigationDestination(icon: Icon(Icons.store), label: 'Market'),
           NavigationDestination(icon: Icon(Icons.receipt_long), label: 'Order'),
-          NavigationDestination(icon: Icon(Icons.monitor_heart), label: 'Monitoring'),
+          NavigationDestination(
+            icon: Icon(Icons.monitor_heart),
+            label: 'Monitor',
+          ),
+          NavigationDestination(icon: Icon(Icons.verified), label: 'Garansi'),
+          NavigationDestination(icon: Icon(Icons.calculate), label: 'ROI'),
+          NavigationDestination(icon: Icon(Icons.person), label: 'Profil'),
         ],
       ),
     );
@@ -90,7 +103,10 @@ class _MarketplaceTabState extends State<_MarketplaceTab> {
             final p = products[i];
             return Card(
               child: ListTile(
-                leading: const Icon(Icons.solar_power, color: Color(0xFF0F766E)),
+                leading: const Icon(
+                  Icons.solar_power,
+                  color: Color(0xFF0F766E),
+                ),
                 title: Text('${p['product_name']}'),
                 subtitle: Text('${p['model'] ?? '-'} · Stok ${p['stock_qty']}'),
                 trailing: Text('Rp${p['price']}'),
@@ -141,9 +157,19 @@ class _OrdersTabState extends State<_OrdersTab> {
             final product = o['product'] as Map<String, dynamic>?;
             return Card(
               child: ListTile(
-                title: Text('Order #${o['id']} · ${product?['product_name'] ?? '-'}'),
+                title: Text(
+                  'Order #${o['id']} · ${product?['product_name'] ?? '-'}',
+                ),
                 subtitle: Text('Qty ${o['quantity']} · ${o['payment_status']}'),
                 trailing: Text('Rp${o['total_price']}'),
+                onTap: () async {
+                  await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => OrderDetailScreen(order: o),
+                    ),
+                  );
+                  if (mounted) setState(() => _future = _data.myOrders());
+                },
               ),
             );
           },

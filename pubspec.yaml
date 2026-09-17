@@ -39,6 +39,8 @@ dependencies:
   http: ^1.2.0
   # Penyimpanan token Sanctum yang aman.
   flutter_secure_storage: ^9.2.2
+  # Pilih gambar (bukti pembayaran) dari galeri/kamera.
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:
