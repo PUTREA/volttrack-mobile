@@ -41,6 +41,8 @@ dependencies:
   flutter_secure_storage: ^9.2.2
   # Pilih gambar (bukti pembayaran) dari galeri/kamera.
   image_picker: ^1.1.2
+  # Grafik untuk monitoring energi.
+  fl_chart: ^0.69.0
 
 dev_dependencies:
   flutter_test:

@@ -49,6 +49,18 @@ class DataService {
     return [];
   }
 
+  /// Deret reading energy untuk chart (N titik terakhir).
+  Future<List<Map<String, dynamic>>> energySeries(
+    int activationId, {
+    int limit = 20,
+  }) async {
+    final res = await _api.get('/energy/$activationId/series?limit=$limit');
+    if (res.ok && res.body is Map && res.body['series'] is List) {
+      return (res.body['series'] as List).cast<Map<String, dynamic>>();
+    }
+    return [];
+  }
+
   /// Reading energy terbaru untuk live monitoring.
   Future<Map<String, dynamic>?> latestEnergy(int activationId) async {
     final res = await _api.get('/energy/$activationId/latest');
