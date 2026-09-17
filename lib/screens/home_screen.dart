@@ -8,6 +8,7 @@ import 'warranty_screen.dart';
 import 'roi_screen.dart';
 import 'profile_screen.dart';
 import 'order_detail_screen.dart';
+import 'product_order_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -110,6 +111,13 @@ class _MarketplaceTabState extends State<_MarketplaceTab> {
                 title: Text('${p['product_name']}'),
                 subtitle: Text('${p['model'] ?? '-'} · Stok ${p['stock_qty']}'),
                 trailing: Text('Rp${p['price']}'),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => ProductOrderScreen(product: p),
+                    ),
+                  );
+                },
               ),
             );
           },
