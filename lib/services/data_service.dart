@@ -99,7 +99,12 @@ class DataService {
       '/roi/$activationId?period=$period&tariff=$tariff&unit_price=$unitPrice',
     );
     if (res.ok && res.body is Map && res.body['summary'] != null) {
-      return (res.body['summary'] as Map).cast<String, dynamic>();
+      return {
+        'summary': (res.body['summary'] as Map).cast<String, dynamic>(),
+        'forecast': (res.body['forecast'] is List)
+            ? (res.body['forecast'] as List).cast<Map<String, dynamic>>()
+            : <Map<String, dynamic>>[],
+      };
     }
     return null;
   }
