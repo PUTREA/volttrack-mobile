@@ -17,8 +17,23 @@ class AuthService {
       return null;
     }
 
-    if (res.body is Map && res.body['action_required'] == 'force_password_reset') {
+    if (res.body is Map &&
+        res.body['action_required'] == 'force_password_reset') {
       return 'Kata sandi usang. Silakan reset kata sandi Anda.';
+    }
+
+    // Error koneksi (ApiClient mengembalikan status 500 dari blok catch saat
+    // host tidak terjangkau / timeout). Beri petunjuk yang bisa ditindaklanjuti.
+    if (res.status >= 500 || res.status == 0) {
+      return 'Tidak bisa terhubung ke server. Pastikan server Laravel berjalan '
+          '(php artisan serve) dan, bila memakai HP fisik, API_BASE_URL '
+          'mengarah ke IP LAN komputer.';
+    }
+    if (res.status == 401) {
+      return 'Email atau password salah.';
+    }
+    if (res.status == 422) {
+      return 'Email dan password wajib diisi dengan benar.';
     }
     if (res.body is Map && res.body['message'] != null) {
       return res.body['message'] as String;
@@ -27,7 +42,11 @@ class AuthService {
   }
 
   /// Registrasi akun baru. Null bila sukses, pesan error bila gagal.
-  Future<String?> register(String fullName, String email, String password) async {
+  Future<String?> register(
+    String fullName,
+    String email,
+    String password,
+  ) async {
     final res = await _api.post('/register', {
       'full_name': fullName,
       'email': email,

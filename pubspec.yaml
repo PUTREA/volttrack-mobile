@@ -43,6 +43,11 @@ dependencies:
   image_picker: ^1.1.2
   # Grafik untuk monitoring energi.
   fl_chart: ^0.69.0
+  # Tipografi premium Inter/Geist untuk dark UI.
+  google_fonts: ^6.2.1
+  # Suara AURA: speech-to-text (Apple Speech on-device) + text-to-speech.
+  speech_to_text: ^7.0.0
+  flutter_tts: ^4.2.0
 
 dev_dependencies:
   flutter_test:

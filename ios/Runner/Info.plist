@@ -2,6 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>VoltTrack memerlukan akses jaringan lokal untuk terhubung ke API server backend.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>AURA memakai mikrofon agar Anda bisa berbicara dengan asisten energi secara langsung.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>AURA mengenali ucapan Anda di perangkat untuk menjawab perintah suara.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
